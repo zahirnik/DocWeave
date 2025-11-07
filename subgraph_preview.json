@@ -1,0 +1,72 @@
+{
+  "nodes": [
+    {
+      "id": "d10924cb-3214-442e-bde4-7d8a52058f24",
+      "tenant_id": "default",
+      "type": "claim",
+      "key": "claim:org:sainsburys ar 2023|sainsburys ar 2023",
+      "label": "sainsburys ar 2023",
+      "props": {
+        "text": "sainsburys ar 2023",
+        "entity_key": "org:sainsburys ar 2023",
+        "metric_key": null,
+        "period": "2023",
+        "target": null,
+        "confidence": 0.4,
+        "doc_id": "doc:sainsburys-ar-2023",
+        "page": null,
+        "chunk_id": null,
+        "normalized_text": "period:2023",
+        "baseline": null,
+        "unit": null,
+        "hash": "5ca02bc37635f187f0b3f76bf36b7da7713b9f88"
+      }
+    },
+    {
+      "id": "fc4d4914-5469-40da-8cfb-d0c485313ffb",
+      "tenant_id": "default",
+      "type": "entity",
+      "key": "org:sainsburys ar 2023",
+      "label": "sainsburys ar 2023",
+      "props": {
+        "namespace": "org",
+        "name": "sainsburys ar 2023",
+        "alt_names": [],
+        "identifiers": {}
+      }
+    },
+    {
+      "id": "6a61e209-8a1c-45bb-8f93-38dffaca103a",
+      "tenant_id": "default",
+      "type": "evidence",
+      "key": "evidence:doc:sainsburys-ar-2023#pna:na",
+      "label": "Annual Report and Financial Statements 2023 Helping everyone eat better John James and Mary Ann…",
+      "props": {
+        "doc_id": "doc:sainsburys-ar-2023",
+        "page": null,
+        "chunk_id": null,
+        "citation": "Annual Report and Financial Statements 2023 Helping everyone eat better John James and Mary Ann…",
+        "span_start": null,
+        "span_end": null
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "bb7da171-ba0b-4d14-88e7-1b206403e00b",
+      "tenant_id": "default",
+      "type": "about",
+      "src_id": "d10924cb-3214-442e-bde4-7d8a52058f24",
+      "dst_id": "fc4d4914-5469-40da-8cfb-d0c485313ffb",
+      "props": {}
+    },
+    {
+      "id": "2332e31c-c3a7-4bea-9a93-3d32fbf0e08e",
+      "tenant_id": "default",
+      "type": "supported_by",
+      "src_id": "d10924cb-3214-442e-bde4-7d8a52058f24",
+      "dst_id": "6a61e209-8a1c-45bb-8f93-38dffaca103a",
+      "props": {}
+    }
+  ]
+}

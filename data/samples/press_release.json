@@ -1,0 +1,10 @@
+{
+  "company": "ACME PLC",
+  "date": "2024-10-25",
+  "headline": "ACME delivers strong Q3 performance",
+  "highlights": {
+    "revenue_usd_bn": 1.26,
+    "yoy_growth_pct": 14.5,
+    "gross_margin_pct": 38.2
+  }
+}

@@ -1,0 +1,88 @@
+# docker/docker-compose.yml
+# Dev-friendly stack: API + Worker + Redis + Postgres(+pgvector) + OpenTelemetry Collector.
+# Copy `.env.sample` to `.env` and edit credentials before `docker compose up`.
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/api.Dockerfile
+    env_file:
+      - ../configs/.env.sample
+      # You can also provide a real .env file next to this for local secrets.
+    environment:
+      # Override or extend envs if needed:
+      - DATABASE_URL=${DATABASE_URL:-postgresql+psycopg://rag:rag@postgres:5432/ragdb}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - PGVECTOR_URL=${PGVECTOR_URL:-postgresql+psycopg://rag:rag@postgres:5432/ragdb}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-http://otel-collector:4317}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/healthz || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  worker:
+    build:
+      context: ..
+      dockerfile: docker/worker.Dockerfile
+    env_file:
+      - ../configs/.env.sample
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql+psycopg://rag:rag@postgres:5432/ragdb}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - PGVECTOR_URL=${PGVECTOR_URL:-postgresql+psycopg://rag:rag@postgres:5432/ragdb}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-http://otel-collector:4317}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: rag
+      POSTGRES_PASSWORD: rag
+      POSTGRES_DB: ragdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rag -d ragdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.103.1
+    command: ["--config=/etc/otel-collector.yaml"]
+    volumes:
+      - ./otel-collector.yaml:/etc/otel-collector.yaml:ro
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    restart: unless-stopped
+
+volumes:
+  pgdata: {}

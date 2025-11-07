@@ -1,0 +1,64 @@
+{
+  "metric:ghg scope 1": [
+    "scope 1",
+    "scope i",
+    "scope one",
+    "direct emissions"
+  ],
+  "metric:ghg scope 2": [
+    "scope 2",
+    "scope ii",
+    "scope two",
+    "indirect emissions (energy)"
+  ],
+  "metric:ghg scope 3": [
+    "scope 3",
+    "scope iii",
+    "scope three",
+    "value chain emissions"
+  ],
+  "metric:ghg (general)": [
+    "ghg",
+    "greenhouse gas",
+    "co2e",
+    "emissions"
+  ],
+  "metric:emissions intensity": [
+    "intensity",
+    "emissions intensity",
+    "tco2e per revenue",
+    "carbon intensity"
+  ],
+  "metric:renewable energy": [
+    "renewables",
+    "renewable",
+    "renewable electricity",
+    "re100"
+  ],
+  "metric:revenue": [
+    "turnover",
+    "sales",
+    "income"
+  ],
+  "metric:capex": [
+    "capital expenditure",
+    "capital expenditures",
+    "capex spend"
+  ],
+  "metric:water use": [
+    "water consumption",
+    "water withdrawal",
+    "water usage"
+  ],
+  "metric:waste": [
+    "waste generated",
+    "waste disposal",
+    "waste sent to landfill"
+  ],
+  "metric:ltifr": [
+    "lost time injury",
+    "lost-time incident frequency",
+    "ltif",
+    "safety incidents"
+  ]
+}

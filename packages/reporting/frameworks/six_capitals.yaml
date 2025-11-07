@@ -1,0 +1,146 @@
+# packages/reporting/frameworks/six_capitals.yaml
+#
+# Purpose
+# -------
+# Deterministic rules & weights for turning a KG (Entity↔Claims↔Metrics↔Evidence)
+# into auditable scorecards aligned to the "Six Capitals" lens.
+#
+# How scoring works (high-level)
+# ------------------------------
+# For each metric in each capital:
+#   score_metric = w_target*has_target + w_period*has_period
+#                + w_specificity*is_specific + w_evidence*has_evidence
+#                + w_alignment*metric_alignment
+#
+# Then per capital:
+#   score_capital = Σ (metric_weight * score_metric)
+#
+# Finally overall:
+#   score_overall = Σ (capital_weight * score_capital)
+#
+# All checks are derived from the KG only (no LLM), so results are reproducible.
+
+version: 1
+info:
+  name: "Six Capitals (template)"
+  description: |
+    Minimal, deterministic rules for scorecards. Adjust weights and metrics
+    to match your program. Metrics names must match your KG canonical keys
+    (e.g., "metric:ghg scope 1"). Presence checks rely on Claim.props fields:
+    - target (string)
+    - period (string)
+    - confidence (float in [0,1])
+  min_confidence: 0.50   # ignore claims below this confidence
+
+# Capital weights must sum to 1.0 (soft-checked by scoring.py).
+capital_weights:
+  financial: 0.15
+  manufactured: 0.10
+  intellectual: 0.10
+  human: 0.15
+  social_relationship: 0.10
+  natural: 0.40
+
+# Default detector weights used for every metric unless overridden per-metric.
+# Each flag contributes 0 or 1; weighted sum is the metric's score in [0,1].
+detector_weights_default:
+  target_present: 0.30       # claim has a target (e.g., "30%", "net zero")
+  period_present: 0.25       # claim has a time bound (e.g., "by 2030")
+  evidence_linked: 0.20      # claim is supported_by at least one Evidence node
+  specificity_good: 0.15     # claim text avoids vague terms ("aim", "explore", etc.)
+  metric_aligned: 0.10       # claim.quantifies → this metric
+
+# Optional global detector thresholds (used by detectors.py)
+detector_thresholds:
+  min_evidence_per_claim: 1
+  vague_terms:
+    - "aim"
+    - "intend"
+    - "explore"
+    - "consider"
+    - "where possible"
+    - "as appropriate"
+
+# Metric registry per capital.
+# - key: canonical KG metric key (metric:<name>)
+# - weight: relative importance *within the capital* (sums <= 1; remainder implies unmodeled metrics)
+# - detector_weights: (optional) overrides for this metric
+# - notes: free text for auditors
+capitals:
+  financial:
+    metrics:
+      - key: "metric:revenue"
+        label: "Revenue (YoY growth statements)"
+        weight: 0.50
+        notes: "Simple presence of quantified claims with period/target"
+      - key: "metric:operating margin"
+        label: "Operating Margin (targets)"
+        weight: 0.50
+
+  manufactured:
+    metrics:
+      - key: "metric:capex sustainability share"
+        label: "CapEx share toward sustainability"
+        weight: 1.0
+
+  intellectual:
+    metrics:
+      - key: "metric:rd intensity"
+        label: "R&D intensity"
+        weight: 1.0
+
+  human:
+    metrics:
+      - key: "metric:training hours per employee"
+        label: "Training hours per employee"
+        weight: 0.50
+      - key: "metric:lost time injury frequency rate"
+        label: "LTIFR"
+        weight: 0.50
+
+  social_relationship:
+    metrics:
+      - key: "metric:supplier due diligence coverage"
+        label: "Supplier DD coverage"
+        weight: 1.0
+
+  natural:
+    metrics:
+      - key: "metric:ghg scope 1"
+        label: "GHG Scope 1"
+        weight: 0.30
+        detector_weights:
+          target_present: 0.35
+          period_present: 0.30
+          evidence_linked: 0.15
+          specificity_good: 0.10
+          metric_aligned: 0.10
+      - key: "metric:ghg scope 2"
+        label: "GHG Scope 2"
+        weight: 0.25
+      - key: "metric:ghg scope 3"
+        label: "GHG Scope 3"
+        weight: 0.20
+      - key: "metric:renewable electricity share"
+        label: "Renewable electricity share"
+        weight: 0.15
+      - key: "metric:energy intensity"
+        label: "Energy intensity"
+        weight: 0.10
+
+# Optional sector/materiality hooks — names are free-form (see sector_profiles.yaml).
+sector_overrides:
+  enabled: true
+  profile_key_field: "sector"   # look at Entity.props[sector] if set
+  apply:
+    # Example: in Energy sector, emphasize Scope 1/2/3 more heavily.
+    "energy":
+      natural:
+        metrics:
+          "metric:ghg scope 1": { weight: 0.35 }
+          "metric:ghg scope 2": { weight: 0.30 }
+          "metric:ghg scope 3": { weight: 0.25 }
+    "technology":
+      intellectual:
+        metrics:
+          "metric:rd intensity": { weight: 1.0 }

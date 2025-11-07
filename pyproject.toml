@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "convai-finance-agentic-rag"
+version = "0.1.0"
+description = "Agentic RAG for finance datasets — tutorial-clear, industry-minded."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "Your Name", email = "you@example.com"}]
+license = {text = "MIT"}
+keywords = ["rag", "langchain", "langgraph", "finance", "retrieval", "agents"]
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn>=0.29",
+  "pydantic>=2.7",
+  "python-multipart>=0.0.9",
+  "requests>=2.31",
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "matplotlib>=3.8",
+  "plotly>=5.22",
+  "openpyxl>=3.1",
+  "PyPDF2>=3.0",
+  "tiktoken>=0.7",
+  "langchain>=0.3.0",
+  "langgraph>=0.2.39",
+  "langsmith>=0.1.98",
+  "qdrant-client>=1.9; python_version >= '3.9'",
+  "sqlalchemy>=2.0",
+  "psycopg[binary,pool]>=3.2",
+  "pgvector>=0.2.5",
+  "redis>=5.0",
+  "celery>=5.3",
+  "tenacity>=8.2",
+  "scikit-learn>=1.4",
+  "prometheus-client>=0.20",
+  "opentelemetry-api>=1.26",
+  "opentelemetry-sdk>=1.26",
+  "opentelemetry-exporter-otlp-proto-grpc>=1.26",
+  "python-dotenv>=1.0",
+  "pydantic-settings>=2.4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2",
+  "mypy>=1.10",
+  "ruff>=0.6",
+  "httpx>=0.27",
+  "types-requests",
+  "types-setuptools",
+]
+
+[tool.setuptools]
+packages = ["apps", "packages", "scripts", "examples"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = ["E","F","I","UP","B"]
+ignore = []
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+strict_optional = false
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["test"]

@@ -1,0 +1,24 @@
+# Seed tenants and simple quotas
+tenants:
+  - id: t0
+    name: "Convai Demo"
+    plan: "pro"
+    quotas:
+      max_docs: 20000
+      max_storage_mb: 20480
+      queries_per_min: 120
+  - id: t1
+    name: "Client A"
+    plan: "team"
+    quotas:
+      max_docs: 5000
+      max_storage_mb: 5120
+      queries_per_min: 60
+
+roles:
+  - name: admin
+    permissions: ["ingest","search","chat","analytics","export"]
+  - name: analyst
+    permissions: ["search","chat","analytics"]
+  - name: viewer
+    permissions: ["search","chat"]

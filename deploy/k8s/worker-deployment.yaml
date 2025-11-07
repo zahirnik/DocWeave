@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rag-worker
+  namespace: convai-rag
+  labels:
+    app.kubernetes.io/name: rag-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rag-worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rag-worker
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/your-org/convai-finance-agentic-rag-worker:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: rag-config
+            - secretRef:
+                name: rag-secrets
+          args: ["celery", "-A", "apps.worker.celery_app:celery", "worker", "-l", "INFO", "-Q", "default,ingest,embed"]
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"

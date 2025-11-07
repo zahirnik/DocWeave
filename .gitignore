@@ -1,0 +1,30 @@
+# secrets
+.env
+.env.*
+*.env
+# vector DB / caches
+.chroma*
+*.sqlite*
+*.duckdb
+# notebooks checkpoints
+.ipynb_checkpoints/
+# logs
+*.log
+uvicorn.log
+# python junk
+__pycache__/
+*.pyc
+# venvs
+.venv/
+venv/
+# OS
+.DS_Store
+# optional: large docs (comment these if you want docs in repo)
+data/**/*.pdf
+data/**/*.docx
+__pycache__/
+*.pyc
+.env
+.venv/
+.ipynb_checkpoints/
+.DS_Store

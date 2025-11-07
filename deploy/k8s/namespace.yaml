@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: convai-rag
+  labels:
+    app.kubernetes.io/part-of: convai-finance-agentic-rag
+# Create once: kubectl apply -f namespace.yaml

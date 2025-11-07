@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "convai-finance-agentic-rag.fullname" . }}-api
+  labels:
+    app.kubernetes.io/name: rag-api
+spec:
+  replicas: {{ .Values.replicaCount.api }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rag-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rag-api
+    spec:
+      containers:
+        - name: api
+          image: {{ .Values.image.api }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: {{ include "convai-finance-agentic-rag.fullname" . }}-config
+            - secretRef:
+                name: {{ include "convai-finance-agentic-rag.fullname" . }}-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20

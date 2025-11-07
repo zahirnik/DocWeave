@@ -1,0 +1,37 @@
+pii_redaction:
+  enabled: true
+  strategies:
+    email: "[email]"
+    phone: "[phone]"
+    credit_card: "[card]"
+    iban: "[iban]"
+    national_id: "[id]"
+
+ingestion:
+  allow_urls: false
+  allowed_domains:
+    - example.com
+    - acme.com
+  max_upload_mb: ${MAX_UPLOAD_MB:-25}
+  allowed_mime:
+    - text/plain
+    - text/markdown
+    - application/pdf
+    - application/json
+    - text/csv
+    - application/vnd.ms-excel
+    - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+retention:
+  days: ${RETENTION_DAYS:-30}
+
+tools:
+  allow_web: false
+  allow_exec: false
+  allow_fs_write: true
+
+safety:
+  denylist:
+    - "exfiltrate customer emails"
+    - "paste my aws keys"
+    - "disable safety"

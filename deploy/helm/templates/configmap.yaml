@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "convai-finance-agentic-rag.fullname" . }}-config
+data:
+  APP_ENV: "{{ .Values.env.APP_ENV }}"
+  LOG_LEVEL: "{{ .Values.env.LOG_LEVEL }}"
+  PGVECTOR_URL: "{{ .Values.env.PGVECTOR_URL }}"
+  REDIS_URL: "{{ .Values.env.REDIS_URL }}"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "{{ .Values.env.OTEL_EXPORTER_OTLP_ENDPOINT }}"

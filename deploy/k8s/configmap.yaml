@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rag-config
+  namespace: convai-rag
+data:
+  # App-level config (safe, non-secret). Mirror configs/.env.sample.
+  APP_ENV: "prod"
+  LOG_LEVEL: "INFO"
+  PGVECTOR_URL: "postgresql+psycopg://rag:rag@postgres:5432/ragdb"
+  REDIS_URL: "redis://redis:6379/0"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4317"

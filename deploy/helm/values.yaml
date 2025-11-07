@@ -1,0 +1,27 @@
+image:
+  api: ghcr.io/your-org/convai-finance-agentic-rag-api:latest
+  worker: ghcr.io/your-org/convai-finance-agentic-rag-worker:latest
+replicaCount:
+  api: 2
+  worker: 1
+
+service:
+  type: ClusterIP
+  port: 80
+
+env:
+  APP_ENV: prod
+  LOG_LEVEL: INFO
+  PGVECTOR_URL: postgresql+psycopg://rag:rag@postgres:5432/ragdb
+  REDIS_URL: redis://redis:6379/0
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+
+secrets:
+  OPENAI_API_KEY: ""
+  TAVILY_API_KEY: ""
+  DATABASE_URL: postgresql+psycopg://rag:rag@postgres:5432/ragdb
+
+ingress:
+  enabled: false
+  className: nginx
+  host: rag.localtest.me

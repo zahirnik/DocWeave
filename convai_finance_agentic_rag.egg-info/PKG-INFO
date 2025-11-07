@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: convai-finance-agentic-rag
+Version: 0.1.0
+Summary: Agentic RAG for finance datasets — tutorial-clear, industry-minded.
+Author-email: Your Name <you@example.com>
+License: MIT
+Keywords: rag,langchain,langgraph,finance,retrieval,agents
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fastapi>=0.115
+Requires-Dist: uvicorn>=0.29
+Requires-Dist: pydantic>=2.7
+Requires-Dist: python-multipart>=0.0.9
+Requires-Dist: requests>=2.31
+Requires-Dist: numpy>=1.26
+Requires-Dist: pandas>=2.2
+Requires-Dist: matplotlib>=3.8
+Requires-Dist: plotly>=5.22
+Requires-Dist: openpyxl>=3.1
+Requires-Dist: PyPDF2>=3.0
+Requires-Dist: tiktoken>=0.7
+Requires-Dist: langchain>=0.3.0
+Requires-Dist: langgraph>=0.2.39
+Requires-Dist: langsmith>=0.1.98
+Requires-Dist: qdrant-client>=1.9; python_version >= "3.9"
+Requires-Dist: sqlalchemy>=2.0
+Requires-Dist: psycopg[binary,pool]>=3.2
+Requires-Dist: pgvector>=0.2.5
+Requires-Dist: redis>=5.0
+Requires-Dist: celery>=5.3
+Requires-Dist: tenacity>=8.2
+Requires-Dist: scikit-learn>=1.4
+Requires-Dist: prometheus-client>=0.20
+Requires-Dist: opentelemetry-api>=1.26
+Requires-Dist: opentelemetry-sdk>=1.26
+Requires-Dist: opentelemetry-exporter-otlp-proto-grpc>=1.26
+Requires-Dist: python-dotenv>=1.0
+Requires-Dist: pydantic-settings>=2.4
+Provides-Extra: dev
+Requires-Dist: pytest>=8.2; extra == "dev"
+Requires-Dist: mypy>=1.10; extra == "dev"
+Requires-Dist: ruff>=0.6; extra == "dev"
+Requires-Dist: httpx>=0.27; extra == "dev"
+Requires-Dist: types-requests; extra == "dev"
+Requires-Dist: types-setuptools; extra == "dev"
+Dynamic: license-file
+
+# Convai Finance Agentic RAG
+
+**Agentic RAG** for finance documents (PDF, CSV/XLSX, JSON/JSONL, TXT/MD) with
+tutorial-level clarity and production-minded patterns.
+
+- Ingestion → parse/normalize → chunk → embed → vector stores (pgvector/qdrant/chroma)
+- Hybrid retrieval (vector+BM25) + (optional) reranker
+- LangGraph agent: route → retrieve → ground → analyze (tables/charts) → answer
+- FastAPI API + Celery worker, multitenant isolation, observability hooks
+- Fully offline-friendly examples — add keys later
+
+## Quickstart
+See [docs/QUICKSTART.md](docs/QUICKSTART.md).
+
+## Architecture
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## API
+See [docs/API.md](docs/API.md).
+
+## Security & Runbooks
+See [docs/SECURITY.md](docs/SECURITY.md) and [docs/RUNBOOKS.md](docs/RUNBOOKS.md).
+
+## License
+MIT — see [LICENSE](LICENSE).

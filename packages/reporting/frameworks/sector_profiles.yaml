@@ -1,0 +1,74 @@
+# packages/reporting/frameworks/sector_profiles.yaml
+#
+# Purpose
+# -------
+# Optional sector/materiality profiles that *tune* the Six Capitals template
+# without changing code. These profiles are applied when the Entity node has
+#   props: { "sector": "<profile-name>" }
+#
+# How it's read
+# -------------
+# scoring.py looks up `entity.props[profile_key_field]` from six_capitals.yaml
+# (default: "sector") and, if a matching profile exists here, applies the
+# overrides below (weights within the specified capital and/or detector tweaks).
+#
+# Notes
+# -----
+# - Only override what you need; anything omitted inherits from six_capitals.yaml.
+# - Metric keys MUST match your KG canonical metric keys (metric:...).
+# - All weights under a single capital's `metrics` are relative *within that capital*.
+#
+version: 1
+info:
+  name: "Sector profiles (template)"
+  description: "Materiality/weight tuning by sector. Keep minimal and auditable."
+
+profiles:
+  energy:
+    notes: "Prioritise GHG scopes; keep some financial emphasis."
+    apply:
+      natural:
+        metrics:
+          "metric:ghg scope 1": { weight: 0.35 }
+          "metric:ghg scope 2": { weight: 0.30 }
+          "metric:ghg scope 3": { weight: 0.25 }
+          "metric:renewable electricity share": { weight: 0.10 }
+      financial:
+        metrics:
+          "metric:revenue":          { weight: 0.60 }
+          "metric:operating margin": { weight: 0.40 }
+    detector_overrides:
+      vague_terms: ["aim", "intend", "explore", "consider", "plan to"]
+
+  technology:
+    notes: "Innovation- and people-heavy; still track energy use/renewables."
+    apply:
+      intellectual:
+        metrics:
+          "metric:rd intensity": { weight: 0.70 }
+      human:
+        metrics:
+          "metric:training hours per employee": { weight: 0.30 }
+      natural:
+        metrics:
+          "metric:energy intensity":             { weight: 0.20 }
+          "metric:renewable electricity share":  { weight: 0.10 }
+
+  financials:
+    notes: "Financial disclosure emphasis; climate still relevant but secondary."
+    apply:
+      financial:
+        metrics:
+          "metric:revenue":          { weight: 0.60 }
+          "metric:operating margin": { weight: 0.40 }
+
+  consumer_discretionary:
+    notes: "Supply-chain due diligence and safety signals matter."
+    apply:
+      social_relationship:
+        metrics:
+          "metric:supplier due diligence coverage": { weight: 1.0 }
+      human:
+        metrics:
+          "metric:lost time injury frequency rate": { weight: 0.50 }
+          "metric:training hours per employee":     { weight: 0.50 }

@@ -1,0 +1,26 @@
+# Agent graph defaults (retrieval & tool budgets)
+retrieval:
+  top_k: 5
+  max_chunks: 8
+  rerank_k: 20
+  mmr_lambda: 0.3           # 0.0 → pure relevance; 1.0 → pure diversity
+  max_context_tokens: 3000
+  include_tables: true
+  include_figures: true
+
+budgets:
+  max_input_tokens: 6000
+  max_output_tokens: 600
+  max_tool_calls: 6
+  max_web_calls: 0          # keep 0 offline by default
+  timeout_s: 30
+
+retries:
+  llm: 2
+  retriever: 1
+  tool: 1
+
+multitenancy:
+  use_collections: true     # isolate per-tenant collections when feasible
+  collection_prefix: "ten_" # collection name = ten_{tenant_id}_{collection}
+  bm25_provider: none
