@@ -1,6 +1,6 @@
 # DocWeave
 
-DocWeave is an enterprise-ready, agentic Retrieval-Augmented Generation (RAG) platform for document-heavy workflows, with a strong fit for finance and regulated domains.
+DocWeave is an enterprise-ready, agentic Retrieval-Augmented Generation (RAG) platform for document-heavy workflows, with a strong fit for regulated domains.
 
 It helps teams ingest heterogeneous documents, retrieve grounded evidence, and deliver auditable answers through APIs and UI surfaces.
 
