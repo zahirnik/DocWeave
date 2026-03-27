@@ -4,6 +4,7 @@
 *.env
 # vector DB / caches
 .chroma*
+.whoosh*
 *.sqlite*
 *.duckdb
 # notebooks checkpoints
@@ -11,6 +12,9 @@
 # logs
 *.log
 uvicorn.log
+*.pid
+# packaging/build artifacts
+*.egg-info/
 # python junk
 __pycache__/
 *.pyc
