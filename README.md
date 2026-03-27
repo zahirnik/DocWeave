@@ -1,25 +1,82 @@
-# Convai Finance Agentic RAG
+# DocWeave
 
-**Agentic RAG** for finance documents (PDF, CSV/XLSX, JSON/JSONL, TXT/MD) with
-tutorial-level clarity and production-minded patterns.
+DocWeave is an enterprise-ready, agentic Retrieval-Augmented Generation (RAG) platform for document-heavy workflows, with a strong fit for finance and regulated domains.
 
-- Ingestion → parse/normalize → chunk → embed → vector stores (pgvector/qdrant/chroma)
-- Hybrid retrieval (vector+BM25) + (optional) reranker
-- LangGraph agent: route → retrieve → ground → analyze (tables/charts) → answer
-- FastAPI API + Celery worker, multitenant isolation, observability hooks
-- Fully offline-friendly examples — add keys later
+It helps teams ingest heterogeneous documents, retrieve grounded evidence, and deliver auditable answers through APIs and UI surfaces.
 
-## Quickstart
-See [docs/QUICKSTART.md](docs/QUICKSTART.md).
+## Why DocWeave
 
-## Architecture
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+- End-to-end RAG workflow from ingestion to answer generation
+- Multi-format document support: PDF, CSV/XLSX, JSON/JSONL, TXT/MD
+- Hybrid retrieval (vector + BM25) with optional reranking
+- Agentic orchestration for retrieval, grounding, and analysis
+- Multi-tenant patterns for isolation and scale
+- Production-oriented API, worker, observability, and runbook support
 
-## API
-See [docs/API.md](docs/API.md).
+## Core Capabilities
 
-## Security & Runbooks
-See [docs/SECURITY.md](docs/SECURITY.md) and [docs/RUNBOOKS.md](docs/RUNBOOKS.md).
+- Ingestion pipeline: parse -> normalize -> chunk -> embed -> index
+- Vector backends: `pgvector`, `qdrant`, `chroma`
+- LangGraph agent flow: route -> retrieve -> ground -> analyze -> answer
+- FastAPI application layer for serving and integration
+- Celery worker for asynchronous/background processing
+- Security and operations guides for deployment hardening
+
+## Architecture and Docs
+
+- Quickstart: [docs/QUICKSTART.md](docs/QUICKSTART.md)
+- Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- API: [docs/API.md](docs/API.md)
+- Security: [docs/SECURITY.md](docs/SECURITY.md)
+- Runbooks: [docs/RUNBOOKS.md](docs/RUNBOOKS.md)
+
+## Quick Start
+
+```bash
+make dev
+make run
+```
+
+In a separate terminal:
+
+```bash
+make worker
+```
+
+Optional sample indexing:
+
+```bash
+make index
+```
+
+## Local Development
+
+Available Make targets:
+
+- `make dev` - create virtual environment and install editable dependencies
+- `make run` / `make api` - start the FastAPI app with reload
+- `make worker` - start Celery worker queues
+- `make index` - build sample index from `data/samples`
+- `make test` - run test suite
+- `make lint` - run Ruff lint checks
+- `make type` - run MyPy type checks
+- `make docker` - run with Docker Compose
+
+## Deployment Notes
+
+DocWeave includes deployment assets under `deploy/` and `docker/` for containerized and Kubernetes/Helm-based environments.
+
+Before production rollout:
+
+- Configure secrets and environment variables securely
+- Validate tenant isolation and data boundaries
+- Enable tracing/metrics and log redaction policies
+- Review [docs/SECURITY.md](docs/SECURITY.md) and [docs/RUNBOOKS.md](docs/RUNBOOKS.md)
+
+## Project Scope
+
+This repository focuses on practical, production-minded RAG patterns with tutorial-level clarity for fast onboarding.
 
 ## License
-MIT — see [LICENSE](LICENSE).
+
+MIT - see [LICENSE](LICENSE).
